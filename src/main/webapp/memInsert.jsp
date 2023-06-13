@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.text.*" %>
+<%@ page import="DBPKG.DBConnection" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,73 +19,27 @@ height: 30px;
 line-height: 30px;
 }
 </style>
-<script>
-function inputCheck(){
-	
-	let fr=document.mInform;
-	console.log(fr.custname.value);
-	// let custname=document.querySelector('[name=custname]').value;
-	if(fr.custno.value==''){
-		// custno 데이터가 없으면
-		alert("회원번호가 입력되지 않았습니다.");
-		fr.custno.focus();
-		return false;
-	}
-	if(fr.custname.value==''){
-		// custname 데이터가 없으면
-		alert("회원이름이 입력되지 않았습니다.");
-		fr.custname.focus();
-		return false;
-	}
-	if(fr.phone.value==''){
-		// phone 데이터가 없으면
-		alert("회원전화가 입력되지 않았습니다.");
-		fr.phone.focus();
-		return false;
-	}
-	if(fr.address.value==''){
-		// address 데이터가 없으면
-		alert("회원주소가 입력되지 않았습니다.");
-		fr.address.focus();
-		return false;
-	}
-	if(fr.joindate.value==''){
-		// joindate 데이터가 없으면
-		alert("가입일자가 입력되지 않았습니다.");
-		fr.joindate.focus();
-		return false;
-	}
-	if(fr.custname.value==''){
-		// custno 데이터가 없으면
-		alert("회원이름이 입력되지 않았습니다.");
-		fr.custname.focus();
-		return false;
-	}
-	if(fr.city.value==''){
-		// city 데이터가 없으면
-		alert("도시코드가 입력되지 않았습니다.");
-		fr.city.focus();
-		return false;
-	}
-	
-	alert('회원등록이 완료되었습니다.');
-	return true;
-}
-
-function search(){
-	window.location.href="listSelectUpdate.jsp";
-}
-</script>
+<script src="./js/basic.js"></script>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
+	
+<%
+String sql = "select max(custno)+1 from member_tbl_02"; // db의 마지막번호+1 처리
+Connection con = DBConnection.getConnection(); // db 접속
+PreparedStatement pstmt = con.prepareStatement(sql);
+ResultSet rs = pstmt.executeQuery();
+rs.next(); // db에서 가져온 자료가 한개
+int maxCustno = rs.getInt(1); // db의 마지막번호 +1, 회원번호
+%>
+
 	<section class="section">
 		<h2>쇼핑몰 회원관리 프로그램</h2>
-		<form action="dbInsert.jsp" method="POST" name="mInform" onsubmit="return inputCheck()">
+		<form action="dbInsert.jsp" method="POST" name="mInform" onsubmit="return inputCheck('in')">
 			<table>
 				<tr>
 					<th>회원번호(자동발생)</th>
-					<td><input type="text" name="custno"></td>
+					<td><input type="text" name="custno" readonly="readonly" value="<%=maxCustno%>"></td>
 				</tr>
 				<tr>
 					<th>회원성명</th>
@@ -114,4 +73,7 @@ function search(){
 		</form>
 	</section>
 </body>
+<%
+DBConnection.getClose(con, pstmt, rs);
+%>
 </html>

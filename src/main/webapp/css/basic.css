@@ -20,15 +20,15 @@ a, a:visited{
 table{
 	border:1px solid black;
 	border-collapse: collapse;
-	margin: 0 auto;
-	margin-top: 40px; /* 수정할 부분 */
+	margin: 0 auto; /* 부모 요소 안에서의 가운데 정렬, 현재는 브라우저의 가운데 */
+	margin-top: 10px; /* 수정할 부분 */
 	/* text-align: center; */
 }
 tr, th, td{
 	border: 1px solid black;
 	height: 40px; /* 수정할 부분 */
 	/* text-align: center; */
-	line-height: 40px;
+	line-height: 20px;
 }
 /* header 부분 */
 .header >h1{
@@ -60,16 +60,15 @@ margin-left: 10px;
 color: white;
 }*/
 .nav li{
-display: inline-block;
+display: inline-block; /* 줄바꿈을 하지 않음 */
 }
 .nav li>a{
 	display: block; /* 영역을 넓게 잡기 위함 */
 	padding: 20px 10px;
 	color: white;
 }
-.nav li>a:visited, li>a:hover{ /* a 태그 방문 후 */
+.nav li>a:visited{ /* a 태그 방문 후 */
 	color: white;
-	background-color: red;
 }
 
 /* section 부분 */

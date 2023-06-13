@@ -3,7 +3,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.text.*"%>
-
+<%@ page import="DBPKG.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,97 +18,54 @@ height: 30px;
 line-height: 30px;
 }
 </style>
-<script>
-function inputCheck(){
-	
-	let fr=document.mInform;
-	console.log(fr.custname.value);
-	// let custname=document.querySelector('[name=custname]').value;
-	if(fr.custno.value==''){
-		// custno 데이터가 없으면
-		alert("회원번호가 입력되지 않았습니다.");
-		fr.custno.focus();
-		return false;
-	}
-	if(fr.custname.value==''){
-		// custname 데이터가 없으면
-		alert("회원이름이 입력되지 않았습니다.");
-		fr.custname.focus();
-		return false;
-	}
-	if(fr.phone.value==''){
-		// phone 데이터가 없으면
-		alert("회원전화가 입력되지 않았습니다.");
-		fr.phone.focus();
-		return false;
-	}
-	if(fr.address.value==''){
-		// address 데이터가 없으면
-		alert("회원주소가 입력되지 않았습니다.");
-		fr.address.focus();
-		return false;
-	}
-	if(fr.joindate.value==''){
-		// joindate 데이터가 없으면
-		alert("가입일자가 입력되지 않았습니다.");
-		fr.joindate.focus();
-		return false;
-	}
-	if(fr.custname.value==''){
-		// custno 데이터가 없으면
-		alert("회원이름이 입력되지 않았습니다.");
-		fr.custname.focus();
-		return false;
-	}
-	if(fr.city.value==''){
-		// city 데이터가 없으면
-		alert("도시코드가 입력되지 않았습니다.");
-		fr.city.focus();
-		return false;
-	}
-	
-	alert('회원수정이 완료되었습니다.');
-	return true;
-}
-
-function search(){
-	window.location.href="listSelectUpdate.jsp";
-}
-</script>
+<script src="./js/basic.js"></script>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
+	<%
+	String sql = "SELECT CUSTNO, CUSTNAME, PHONE, ADDRESS, " +
+			"TO_CHAR(JOINDATE,'YYYY-MM-DD') JOINDATE, " +
+			"GRADE, CITY " +
+			"FROM MEMBER_TBL_02 "
+			+ "WHERE CUSTNO = " + request.getParameter("custno");
+	Connection con = DBConnection.getConnection(); // db 접속
+	PreparedStatement pstmt = con.prepareStatement(sql);
+	ResultSet rs = pstmt.executeQuery();
+	rs.next(); // db에서 가져온 자료가 한개
+	
+	%>
+
 	<section class="section">
 		<h2>쇼핑몰 회원 정보수정</h2>
-		<form action="dbInsert.jsp" method="POST" name="mInform" onsubmit="return inputCheck()">
+		<form action="dbUpdate.jsp" method="POST" name="mInform" onsubmit="return inputCheck('mo')">
 			<table>
 				<tr>
 					<th>회원번호(자동발생)</th>
-					<td><input type="text" name="custno"></td>
+					<td><input type="text" name="custno" readonly value="<%=rs.getString("custno") %>"></td>
 				</tr>
 				<tr>
 					<th>회원성명</th>
-					<td><input type="text" name="custname"></td>
+					<td><input type="text" name="custname" value="<%=rs.getString("custname") %>"></td>
 				</tr>
 				<tr>
 					<th>회원전화</th>
-					<td><input type="text" name="phone"></td>
+					<td><input type="text" name="phone" value="<%=rs.getString("phone") %>"></td>
 				</tr>
 				<tr>
 					<th>회원주소</th>
-					<td><input type="text" name="address" size="50"></td>
+					<td><input type="text" name="address" size="50" value="<%=rs.getString("address") %>"></td>
 				</tr>
 				<tr>
 					<th>가입일자</th>
-					<td><input type="text" name="joindate"></td>
+					<td><input type="text" name="joindate" value="<%=rs.getString("joindate") %>"></td>
 				</tr>
 				<tr>
 					<th>고객등급</th>
-					<td><input type="text" name="grade"></td>
+					<td><input type="text" name="grade" value="<%=rs.getString("grade") %>"></td>
 				</tr>
 				<tr>
 					<th>도시코드</th>
-					<td><input type="text" name="city"></td>
+					<td><input type="text" name="city" value="<%=rs.getString("city") %>"></td>
 				</tr>
 				<tr>
 					<td class = "btn" colspan="2"><input type="submit" value="수정"> <input type="button"
