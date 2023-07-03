@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 public class DBConnection {
    public static Connection getConnection() throws Exception{
       String url = "jdbc:oracle:thin:@//localhost:1521/xe";
-      String user = "system";
-      String pwd = "1234";
+      String user = "java";
+      String pwd = "oracle";
       
       Class.forName("oracle.jdbc.OracleDriver");
       Connection con = DriverManager.getConnection(url, user, pwd);

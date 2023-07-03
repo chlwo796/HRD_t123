@@ -33,9 +33,8 @@ width: 250px;
 <section class="section">
 <%
 	String sql = "SELECT CUSTNO, CUSTNAME, PHONE, ADDRESS, " +
-				"TO_CHAR(JOINDATE,'YYYY-MM-DD') JOINDATE, " +
-				"GRADE, CITY " +
-				"FROM MEMBER_TBL_02";
+				 "TO_CHAR(JOINDATE,'YYYY-MM-DD') JOINDATE, " +
+			     "GRADE, CITY FROM MEMBER_TBL_02";
 
 	Connection con = DBConnection.getConnection();
 	PreparedStatement pstmt = con.prepareStatement(sql);

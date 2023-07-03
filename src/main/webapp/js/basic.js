@@ -3,7 +3,7 @@ function inputCheck(selec){
 	let fr=document.mInform;
 	console.log(fr.custname.value);
 	// let custname=document.querySelector('[name=custname]').value;
-	if(fr.custno.value==''){
+	if(fr.custno.value.trim()==''){
 		// custno 데이터가 없으면
 		alert("회원번호가 입력되지 않았습니다.");
 		fr.custno.focus();
